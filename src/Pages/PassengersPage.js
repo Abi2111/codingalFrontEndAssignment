@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Loader from '../components/Loader';
 
 const PassengersPage = () => {
@@ -8,7 +8,7 @@ const PassengersPage = () => {
   const [error, setError] = useState(null);
   const passengersPerPage = 10;
 
-  const fetchPassengers = async () => {
+  const fetchPassengers = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -25,11 +25,11 @@ const PassengersPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, passengersPerPage]);
 
   useEffect(() => {
     fetchPassengers();
-  }, [page]);
+  }, [fetchPassengers]);
 
   const handleScroll = () => {
     if (

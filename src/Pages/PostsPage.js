@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Loader from '../components/Loader';
 
 const Posts = () => {
@@ -8,7 +8,7 @@ const Posts = () => {
   const [error, setError] = useState(null);
   const postsPerPage = 10;
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -25,11 +25,11 @@ const Posts = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, postsPerPage]);
 
   useEffect(() => {
     fetchPosts();
-  }, [page]);
+  }, [fetchPosts]);
 
   const handleScroll = () => {
     if (
